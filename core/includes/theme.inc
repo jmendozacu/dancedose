@@ -344,7 +344,7 @@ function theme_get_setting($setting_name, $theme = NULL) {
 
       // Generate the path to the logo image.
       if ($cache[$theme]->get('logo.use_default')) {
-        $cache[$theme]->set('logo.url', file_url_transform_relative(file_create_url($theme_object->getPath() . '/logo.png')));
+        $cache[$theme]->set('logo.url', file_url_transform_relative(file_create_url($theme_object->getPath() . '/logo.svg')));
       }
       elseif ($logo_path = $cache[$theme]->get('logo.path')) {
         $cache[$theme]->set('logo.url', file_url_transform_relative(file_create_url($logo_path)));

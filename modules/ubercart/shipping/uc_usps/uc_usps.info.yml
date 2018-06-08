@@ -1,0 +1,15 @@
+name: 'U.S. Postal Service'
+type: module
+description: 'Integrates USPS Rate Calculator and Mail Service Standards Web Tools.'
+package: Ubercart - shipping
+# core: 8.x
+dependencies:
+  - not_yet_ported
+  - ubercart:uc_quote
+configure: uc_usps.settings
+
+# Information added by Drupal.org packaging script on 2018-05-25
+version: '8.x-4.0-alpha5+220-dev'
+core: '8.x'
+project: 'ubercart'
+datestamp: 1527226992

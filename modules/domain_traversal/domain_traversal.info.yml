@@ -1,0 +1,15 @@
+name: Domain Traversal
+description: 'Provides quick login-links between domains.'
+type: module
+package: Domain
+# version: VERSION
+# core: 8.x
+configure: domain_traversal
+dependencies:
+  - domain
+
+# Information added by Drupal.org packaging script on 2018-03-27
+version: '8.x-1.2'
+core: '8.x'
+project: 'domain_traversal'
+datestamp: 1522175896
