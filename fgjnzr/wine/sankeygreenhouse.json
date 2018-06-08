@@ -1,0 +1,57 @@
+{
+"links": [
+{"source":"peach","target":"semillon","value":"0.5" },
+{"source":"peach","target":"chardonnay","value":"0.5"},
+{"source":"apple","target":"chardonnay","value":"0.5"},
+{"source":"apple","target":"semillon","value":"0.5"},
+{"source":"tabaco","target":"semillon","value":"0.5"},
+{"source":"tabaco","target":"merlot","value":"0.5"},
+{"source":"cherry","target":"merlot","value":"1"},
+{"source":"plum","target":"merlot","value":"1"},
+{"source":"blackcurrant","target":"merlot","value":"1"},
+
+{"source":"semillon","target":"wine1","value":"1.5" },
+{"source":"chardonnay","target":"wine1","value":"0.5"},
+
+{"source":"chardonnay","target":"wine2","value":"0.5"},
+
+{"source":"merlot","target":"wine3","value":"1.16" },
+
+{"source":"merlot","target":"wine4","value":"1.16"},
+{"source":"merlot","target":"wine5","value":"1.16"},
+
+
+{"source":"wine1","target":"bordeaux","value":"2"},
+{"source":"wine2","target":"loire","value":"0.5"},
+{"source":"wine3","target":"bordeaux","value":"1.16"},
+{"source":"wine4","target":"piemonte","value":"1.16"},
+{"source":"wine5","target":"tuscany","value":"1.16"},
+
+{"source":"bordeaux","target":"france","value":"3.16"},
+{"source":"loire","target":"france","value":"0.5"},
+
+{"source":"piemonte","target":"italy","value":"1.16"},
+{"source":"tuscany","target":"italy","value":"1.16"}
+] ,
+"nodes": [
+{"name":"peach", "color":"PeachPuff"},
+{"name":"apple", "color":"PaleGreen"},
+{"name":"plum", "color":"plum"},
+{"name":"tabaco", "color":"brown"},
+{"name":"blackcurrant", "color":"DarkMagenta"},
+{"name":"cherry", "color":"DarkRed"},
+{"name":"semillon", "color":"GreenYellow"},
+{"name":"chardonnay", "color":"GreenYellow"},
+{"name":"merlot", "color":"IndianRed"},
+{"name":"france", "color":"blue"},
+{"name":"loire", "color":"blue"},
+{"name":"bordeaux", "color":"blue"},
+{"name":"italy", "color":"green"},
+{"name":"piemonte", "color":"green"},
+{"name":"tuscany", "color":"green"},
+{"name":"wine1", "color":"grey"},
+{"name":"wine2", "color":"grey"},
+{"name":"wine3", "color":"grey"},
+{"name":"wine4", "color":"grey"},
+{"name":"wine5", "color":"grey"}
+] }

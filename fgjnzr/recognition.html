@@ -1,0 +1,57 @@
+<html>
+<head>
+
+
+<script>
+  var handleSuccess = function(stream) {
+    var context = new AudioContext();
+    var source = context.createMediaStreamSource(stream);
+    var processor = context.createScriptProcessor(1024, 1, 1);
+    source.connect(processor);
+    processor.connect(context.destination);
+
+   
+    processor.onaudioprocess = function(e) {
+      // Do something with the data, i.e Convert this to WAV
+      console.log(e.inputBuffer);
+       processor.onaudioprocess =null;
+      identify(e.inputBuffer);
+    };
+  };
+  
+   
+  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(handleSuccess);
+      
+      
+
+
+
+/**
+ * Identifies a sample of bytes
+ */
+function identify(data) {
+
+  var current_data = new Date();
+  var timestamp = current_data.getTime()/1000;
+
+     var req = new XMLHttpRequest();
+     var url = "https://api.audd.io/?audio="+data;
+     req.open('POST', url);
+     req.setRequestHeader('Content-type', 'application/json;  charset=utf-8', true);
+     req.onreadystatechange = function() { //Call a function when the state changes.
+        if (req.readyState == XMLHttpRequest.DONE && req.status == 200) {
+           window.location.reload(true);
+        }
+     }
+     req.send();
+
+}
+
+      
+</script>
+</head>
+<body >
+ 
+</body>
+</html>

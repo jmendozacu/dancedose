@@ -1,0 +1,47 @@
+<head>
+ <!-- <script src="//unpkg.com/sunburst-chart"></script>-->
+  <script type="text/javascript" src="../../sunburst-char.js"></script>
+
+  <style>body { margin: 0 }</style>
+</head>
+<body>
+  <div id="chart"></div>
+
+  <script>
+    const data = {
+      name: 'Vin',
+      color: 'magenta',
+      children: [{
+        name: 'Blanc',
+        color: 'yellow',
+        size: 1
+      },{
+        name: 'Sauvignon',
+        color: 'yellow',
+        children: [{
+          name: 'ba',
+          color: 'orange',
+          size: 1
+        }, {
+          name: 'bb',
+          color: 'blue',
+          children: [{
+            name: 'bba',
+            color: 'green',
+            size: 1
+          }, {
+            name: 'bbb',
+            color: 'pink',
+            size: 1
+          }]
+        }]
+      }]
+    };
+
+    Sunburst()
+      .data(data)
+      .size('size')
+      .color('color')
+      (document.getElementById('chart'));
+  </script>
+</body>

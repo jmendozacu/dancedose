@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript HTML DOM!</h2>
+
+    <script  type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUWxLyE7XIZBWbUiwziKI6_fx65pl7wLk&libraries=places,geometry"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+<button onclick="myFunction()">Try it</button>
+
+
+				<div class="mobilepostcard">
+					<div class="cardtitle"><h2>Hearken the Blues</h2></div>
+					<div class="lowersection">
+					<div class="postcardleft">
+						<ul>
+							<li><span>When?</span> 18th May 2018 - 21st May 2018</li>
+							<li><span>Country:</span> Australia</li>
+							<li><span>Town:</span> Wallaroo, 2 hrs from Adelaide</li>
+							<li><span>Website:</span> <a href="https://www.facebook.com/events/975068609311145" target="_blank">https://www.facebook.com/events/975068609311145</a></li>
+							<li><span>Styles:</span> Blues</li>
+						</ul>						
+						<div class="scroll-pane2"><p>Hearken the Blues is a love song to blues dancing, blues music and the Australian blues dance community. HtB is a whole-of-community event. In addition to dance classes, you’ll also have the opportunity to attend electives in blues history, DJing, organising events, teaching, all facilitated by members of the Australian blues scene.
+
+We’re also bringing over two top international instructors to inspire you with their passion, knowledge and perspective. 
+
+Our weekend home is located a short walk to the beach in Wallaroo SA, a seaside town located 2 hours from Adelaide. Onsite accommodation is included with your pass, and we’ll help with some different travel options for getting there. 
+
+Expect a weekend of dancing ‘til dawn, 2am chats, and hanging out with friends old and new. 
+
+STAY TUNED! Website opening January 2018 and regos in February 2018.</p></div>
+					</div>
+					<div class="postcardright Yes">
+					
+						<p><span>Teachers:</span></p>
+						<div class="scroll-pane"><p>Damon Stone and Kelsy Stone</p></div>
+							
+						<div class="viewsplease">Views: 42</div>
+					</div>
+					</div>
+				</div>
+				
+
+<a href="http://www.swingplanit.com" class="backhome">Swing PlanIt</a>
+
+
+
+<script>
+function myFunction() {
+     var i;
+        var country = "";
+        var town = "";
+        var date_str;
+        var place;
+        var title;
+         var styles;
+        var  website;
+        var author;
+      var description ="";
+    var dates = [];
+    var date_range="";
+    
+    myNodelist =  document.querySelectorAll("h2");
+            for (i = 0; i < myNodelist.length; i++) {
+                title=  myNodelist[i].innerHTML;
+            }
+            myNodelist =  document.querySelectorAll(".scroll-pane2");
+            for (i = 0; i < myNodelist.length; i++) {
+                description +=  '<br>'+myNodelist[i].innerHTML;
+            }
+           myNodelist =  document.querySelectorAll(".scroll-pane");
+            for (i = 0; i < myNodelist.length; i++) {
+                description +=  '<br>Teachers: '+myNodelist[i].innerHTML;
+            }
+            description +=  '<br>'+website;
+           
+    
+    var myNodelist = document.querySelectorAll("span");
+    
+    for (i = 0; i < myNodelist.length; i++) {
+        var elID =  myNodelist[i].innerHTML;
+        var str;
+        str =  myNodelist[i].parentElement.innerHTML;
+        str = str.replace('<span>'+elID+'</span>','');
+        if (elID == "When?") 
+        {
+        	     var date_arr = str.split('-');
+        	     var start_date;
+                 var end_date;
+        	     for (var k in date_arr)
+        	     {
+       			     date_str = date_arr[k].replace('th','');
+                     date_str = date_str.replace('st','');
+                     date_str = date_str.replace('nd','');
+                     date_str = date_str.replace('rd','');
+                     
+                     var d = new Date(date_str);
+
+                     if(k==0) start_date = d;
+                     if(k==1) end_date = d;
+                     if (k>1)  break;
+                    var rr = d.toLocaleDateString("fr-Fr", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit"
+                    }).split('/');
+                     
+                     var mm = ("0" + (d.getMonth() + 1)).slice(-2);
+                     var dd = ("0" + d.getDate()).slice(-2);
+                     var yy = d.getFullYear();
+                     
+                     date_str = yy +'-'+mm+'-'+dd;
+                     dates.push(date_str);
+                     
+        	     }
+        	     
+        	     date_range = dates.join('..');
+        	      
+        }
+        else if (elID == "Town:") 
+                 town = str;
+        else if (elID == "Country:") 
+                 country = str;
+        else if (elID == "Website:")
+        {
+             website  = str;
+             var link = myNodelist[i].parentElement.querySelector("a").innerHTML;
+
+            
+            author =  link.replace('http://','');
+            author =  author.replace('https://','');
+            author =  author.replace('www.','');
+            author =  author.replace('.com','');
+            author =  author.replace('.org','');
+            author =  author.replace('.net','');
+            author =  author.replace('.co.uk','');
+            author =  author.replace('.no','');
+            author =  author.replace('.fr','');
+            author =  author.replace('.ru','');
+            author =  author.replace('.se','');
+            author =  author.replace('.es','');
+            author =  author.replace('.it','');
+            
+            var longlink = author.split("/");
+            if(longlink.length>1) author = longlink[0];
+            
+             if(author=="facebook" || author==="")
+                author = title.split(' ').join('');
+                
+            author = author.replace(/[^a-zA-Z ]/g, "_");
+            
+         
+
+
+        }
+        else if (elID == "Styles:") 
+                 styles = str;
+    }
+     place = town+', '+ country;
+
+    var result = {
+                title: title,
+                date_range: date_range,
+                location: place,
+                description: description,
+                styles: styles,
+                author:author
+            };
+            
+            
+            
+            
+            
+            
+    console.log(result);
+    
+    
+    
+    
+}
+
+  /*  var msec1 = Date.parse(next_d);
+                              var check_d = new Date();
+                              check_d.setDate(start_date.getDate()+j+1);
+                              var msec2 = Date.parse(check_d);
+                              if(msec1 == msec2)
+                              {
+                                  continue;
+                                  j++;
+                              }
+
+    
+    
+    
+    
+ OLD DATES
+ 
+ if (elID == "When?") 
+        {
+        	     var date_arr = str.split('-');
+        	     var start_date;
+                 var end_date;
+        	     for (var k in date_arr)
+        	     {
+       			     date_str = date_arr[k].replace('th','');
+                     date_str = date_str.replace('st','');
+                     date_str = date_str.replace('nd','');
+                     date_str = date_str.replace('rd','');
+                     date_str = date_str.substr(1,11);
+                     var d = new Date(date_str);
+
+                     if(k==0) start_date = d;
+                     if(k==1) end_date = d;
+                     if (k>1)  break;
+                    var rr = d.toLocaleDateString("fr-Fr", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit"
+                    }).split('/');
+                     date_str = rr[2] +'-'+rr[1]+'-'+rr[0];
+                     dates.push(date_str);
+        	     }
+        	     
+        	       if(k>0)
+                     {
+                         var next_d = new Date(start_date);
+                         j = 1;
+                         next_d.setDate(start_date.getDate()+j);
+                        
+                         while(next_d<end_date)
+                         {
+                             var rr = next_d.toLocaleDateString("fr-Fr", {
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit"
+                              }).split('/');
+                               date_str = rr[2] +'-'+rr[1]+'-'+rr[0];
+                             dates.splice(j,0,date_str);
+                            //dates.push(date_str);
+                             j++;
+                            next_d.setDate(start_date.getDate()+j);
+                         }
+                     }
+        }
+});*/
+</script>
+
+</body>
+</html>

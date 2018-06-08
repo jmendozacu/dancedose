@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <script src="jdrupal.js"></script>
+        
+        
+        <script type="text/javascript" >
+       var signinButton;
+       var json_input;
+       var idx;
+       var locked = false;
+        function connectToDancedose()
+        {
+             jDrupal.settings = {
+               sitePath: 'https://swing.dancedose.com', // The path to your Drupal site, for example: http://www.example.com
+              basePath: '/'
+            };
+             signinButton = document.getElementById('signin-button');
+       
+            signinButton.disabled  = true;
+            jDrupal.connect().then(function(result) {
+                var account = jDrupal.currentUser();
+                 if (account.isAuthenticated()) {
+                   
+                    jDrupal.userLogout().then(function() {
+                   signinButton.disabled  = false;
+                      console.log('Logged out!');
+                    });
+                 
+               } else {
+                  signinButton.disabled  = false;
+
+               }
+            });
+        }
+        function signin(){
+             var username = document.getElementById('name').value;
+                  var password = document.getElementById('pass').value;
+                  jDrupal.userLogin(username, password).then(function() {
+                  
+                         signinButton.disabled  = true;
+                         document.getElementById('name').disabled = true;
+                         document.getElementById('pass').disabled = true;
+
+                  }, function(err) {
+                     console.log("user login error: " + JSON.stringify(err));
+                  });
+        }
+         function importJSON(){
+             json_input = JSON.parse(document.getElementById('json_input').value);
+             idx=0;
+             save_node(json_input[idx]);
+         }
+        function save_node(node){
+             (function($) {
+              var styles = node.field_event_styles.split(", "); 
+             var event_styles_formatted = []; 
+               for (var it in styles) {
+                 event_styles_formatted.push({
+                   target_id: styles[it]
+                 });
+               }
+               
+            var currentNode = new $.Node({
+               type: [{
+                  target_id: 'event'
+               }],
+               title: [{
+                  value: node.title
+               }],
+               field_event_address: [{
+                  lat: node.field_event_address,
+                  lng: node.field_event_address_1
+               }],
+               field_event_description: [{
+                  value: node.field_event_description
+               }],
+               field_event_date_range:[{
+                  value: node.field_event_date_range.split(' .. ')[0],
+                  end_value: node.field_event_date_range.split(' .. ')[1]
+               }],
+               field_event_price: [{
+                  value: node.field_event_price
+               }],
+               field_event_time: [{
+                  value: node.field_event_time
+               }],
+               field_event_type: [{
+                  target_id: node.field_event_type
+               }],
+               field_event_venue: [{
+                  value: node.field_event_venue
+               }],
+               uid: [{
+                  target_id: node.uid_1
+               }],
+                      
+               field_event_styles: event_styles_formatted
+            });
+          
+            
+            currentNode.save().then(function() {
+           
+                  console.log(idx + "): Saved node #" + currentNode.id() + ' ' + JSON.stringify(currentNode));
+                  idx++;
+                   save_node(json_input[idx]);
+               },
+               function(err) {
+                  console.log("saving error: " + JSON.stringify(err));
+                
+               });
+  
+               
+         }(jDrupal));
+        }
+    
+        </script>
+    </head>
+  <body onload="connectToDancedose()">
+      <br>
+    <p><input id="name"  type="text" /></p>
+    <p> <input id="pass" type="password" /></p>
+    <br>
+   <button id="signin-button" onclick="signin()">Sign In to Swing dose</button>
+    <form>
+    <p>Type json nodes here:</p>
+    <textarea name="json_nodes" id="json_input" cols="100" rows="50">[{"title":"Midwest Lindy Fest","uid":"midwestlindyfest","field_event_address":"44.977753 ","field_event_price":"cf info","field_event_styles":"8, 3, 1, 6","field_event_time":"20:00","nid":"7793","field_event_address_1":"-93.2650108","field_event_styles_1":"Charleston, Balboa, Lindy Hop, Shag","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":" Minneapolis, MN,  United States","field_event_date_range":"2018-04-26 .. 2018-04-29","uid_1":"534","field_event_description":"\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003EThe premiere jazz dance festival in the Midwest! Dances and workshops and classes to keep your feet and heart happy.\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\nTeachers:\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u0026nbsp;\u003C\/p\u003E\r\n\r\n\u003Cp\u003E\u003Cbr \/\u003E\r\n\u003Ca href=\u0022http:\/\/maps.google.com\/?q= Minneapolis, MN,  United States\u0022\u003EMinneapolis, MN, United States\u003C\/a\u003E\u003C\/p\u003E\r\n"},{"title":"Seven Islands Swing Festival","uid":"_iswing","field_event_address":"28.4636296 ","field_event_price":"cf info","field_event_styles":"1","field_event_time":"20:00","nid":"7794","field_event_address_1":"-16.2518467","field_event_styles_1":"Lindy Hop","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":" Santa Cruz de Tenerife,  Spain","field_event_date_range":"2018-04-26 .. 2018-04-29","uid_1":"535","field_event_description":"\u003Cbr\u003E\u003Cp\u003EAfter the first edition of the swing Festival in Tenerife we can say that 7 Islands Swing Festival is not just a festival, but it\u0027s the festival where any dancer would like to go. \nThe participants will enjoy not only classes with incredible international teachers and great dancers from everywhere, parties and our best bands but also competitions, exhibitions, tasters, cozy and spacious ballrooms, groups of classes with limited dancers, funny photocalls, vintage stands, etc. All this in an incomparable environment (nice citys, beaches and forest), very kind weather, very varied gastronomy and very friendly locals. \nThe perfect place to mix holidays and swing dance that you will not want to miss! \u003C\/p\u003E\u003Cbr\u003ETeachers: \u003Cp\u003EAndrew Hsi and Hyunjung Choi, Aurelian Darbellay and Maria Ferrer, Javier Santos, Sep Vermeersch and Elle Brenecki\u003C\/p\u003E\u003Cbr\u003Eundefined\u003Cbr\u003E \u003Ca href=\u0022http:\/\/maps.google.com\/?q= Santa Cruz de Tenerife,  Spain\u0022\u003E Santa Cruz de Tenerife,  Spain\u003C\/a\u003E"},{"title":"Tuscany Balboa Weekend - III edition!","uid":"tuscanybalboaweekend","field_event_address":"43.8808528 ","field_event_price":"cf info","field_event_styles":"3","field_event_time":"20:00","nid":"7795","field_event_address_1":"10.7755253","field_event_styles_1":"Balboa","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":" Montecatini Terme,  Italy","field_event_date_range":"2018-04-27 .. 2018-04-29","uid_1":"536","field_event_description":"\u003Cbr\u003E\u003Cp\u003EA weekend to discover Balboa dance in the beautiful, charming, unique Tuscany landscape. Imagine a dream city, completely designed in the \u0022Liberty\u0022 style, neat, easily walkable and located in the middle of Tuscany in Italy: this is Montecatini Terme, famous for its thermal water. \nAll inclusive formula: classes + parties + hotel + meals... with a typical italian taste.\u003C\/p\u003E\u003Cbr\u003ETeachers: \u003Cp\u003EBernard Cavasa and Anne-Helene Carvasa, Ga\u0161per Hrovat and Anni Skoglund, Nejc Zupan and Anna Porzelt\u003C\/p\u003E\u003Cbr\u003Eundefined\u003Cbr\u003E \u003Ca href=\u0022http:\/\/maps.google.com\/?q= Montecatini Terme,  Italy\u0022\u003E Montecatini Terme,  Italy\u003C\/a\u003E"},{"title":"IbizaSwingFunFest","uid":"ibizaswingfunfest","field_event_address":"39.0200099 ","field_event_price":"cf info","field_event_styles":"3, 5, 1, 6","field_event_time":"20:00","nid":"7796","field_event_address_1":"1.4821482","field_event_styles_1":"Balboa, Jazz Roots, Lindy Hop, Shag","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":" Ibiza,  Spain","field_event_date_range":"2018-04-27 .. 2018-04-29","uid_1":"537","field_event_description":"\u003Cbr\u003E\u003Cp\u003EThe 1st INTERNATIONAL SWING FESTIVAL IN IBIZA will take place during the days 27, 28 and 29 of April, 2018. The only thing you have to worry about its to buy your plane, train, ferry, bus, kayak tickets, or any other way that can take you to this small and unusual island. Because the rest its on the house!!!! FREE ENTRY\u003C\/p\u003E\u003Cbr\u003ETeachers: \u003Cp\u003ECam Mitchell and Cat Foley, Joris Focquaert and Helena Verheyen, Smiltys Andrikonis and Helena Bausells\u003C\/p\u003E\u003Cbr\u003Eundefined\u003Cbr\u003E \u003Ca href=\u0022http:\/\/maps.google.com\/?q= Ibiza,  Spain\u0022\u003E Ibiza,  Spain\u003C\/a\u003E"},{"title":"Swinging in the Rain","uid":"SwingingintheRain","field_event_address":"52.415303 ","field_event_price":"cf info","field_event_styles":"1","field_event_time":"20:00","nid":"7797","field_event_address_1":"-4.0829200000001","field_event_styles_1":"Lindy Hop","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":"Aberystwyth, United Kingdom","field_event_date_range":"2018-04-27 .. 2018-04-29","uid_1":"538","field_event_description":"\u003Cp\u003EThe littlest lindy exchange is in it\u0027s third year and not so little. Three amazing venues in stunning locations, two live bands and lot and lots of lovely dancing. Mid Wales has beautiful beaches, majestic mountains and views that will stay with you long after the event.\u003C\/p\u003E\r\n"},{"title":"Tallinn Swing Weekend","uid":"tsweekend_ee","field_event_address":"59.4369608 ","field_event_price":"cf info","field_event_styles":"1","field_event_time":"20:00","nid":"7799","field_event_address_1":"24.7535747","field_event_styles_1":"Lindy Hop","field_event_type":"13000","field_event_promoicon":"13000.png","field_event_venue":" Tallinn,  Estonia","field_event_date_range":"2018-04-27 .. 2018-04-29","uid_1":"540","field_event_description":"\u003Cbr\u003E\u003Cp\u003EThe swing dance and music festival Tallinn Swing Weekend 2017 will take place on April 27th \u00e2\u20ac\u201c 29th. The 6th consecutive festival will once again be filled with swing dancing, workshops and music. Book the dates now because an awesome swinging weekend is ahead! More information - coming soon!\u003C\/p\u003E\u003Cbr\u003ETeachers: \u003Cp\u003EAlexey Kazennov and Vassia Panagiotou, Janez \u0160epetavc and Petra Robek\u003C\/p\u003E\u003Cbr\u003Eundefined\u003Cbr\u003E \u003Ca href=\u0022http:\/\/maps.google.com\/?q= Tallinn,  Estonia\u0022\u003E Tallinn,  Estonia\u003C\/a\u003E"}]</textarea>
+    <input value="Import JSON" onclick="importJSON()" />
+    </form>
+  </body>
+  
+  
+</html>

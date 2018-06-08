@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+            <script  type="text/javascript" src="jquery_mobile/jquery.mobile-1.4.5.min.js"></script>
+
+    </head>
+    <body >
+        <p id="demo"> Hello
+        </p>
+         <script >
+          var url = 'http://www.swingplanit.com/event/inland-empire-shuffle-ii-the-inland-empire-strikes-back';
+           url = 'http://tango-argentin.fr/paris/cafe-tango.html?d=2018-03-14';
+          var demo = document.getElementById('demo'); 
+
+          demo.innerHTML = "hacked";
+   /*      
+fetch(url, {
+  mode: 'no-cors'
+}).then(function(response) {
+  return response;
+}).then(function(data) {
+  console.log(data);
+}).catch(function() {
+  console.log("Booo");
+});*/
+  
+  	$.get( url, function( html ) {
+
+  	});
+         </script>
+    </body>
+</html>
